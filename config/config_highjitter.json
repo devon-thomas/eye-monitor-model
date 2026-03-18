@@ -1,0 +1,66 @@
+{
+  "data": {
+    "tbit": 3.125e-11,
+    "n_bits": 127,
+    "samples_per_bit": 512,
+    "prbs_seed": 90
+  },
+
+  "frontend": {
+    "model": "one_pole",
+    "one_pole": {
+      "fp_hz": 100e9 
+    },
+
+    "measured_tf": {
+      "enabled": false,
+      "file": "",
+      "format": "csv",
+      "freq_column": "freq_hz",
+      "real_column": "h_real",
+      "imag_column": "h_imag"
+    }
+  },
+
+  "sampling": {
+    "sigma_j":900e-15,
+    "n_phases": 32,
+    "n_ui_collect": 1024,
+    "skip_initial_ui": 10
+  },
+
+  "nonlinearity": {
+    "enabled": false,
+    "model": "polynomial",
+    "polynomial": {
+      "a1": 1.0,
+      "a2": 0.0,
+      "a3": 0.0
+    }
+  },
+
+  "noise": {
+    "enabled": false,
+    "sigma_v": 0.0
+  },
+
+  "eye_metrics": {
+    "k_sigma": 1.0,
+
+    "eye_width": {
+      "mode": "safe_positive",
+      "value": 0.0
+    }
+  },
+
+  "output": {
+    "show_plots": true,
+    "save_plots": false,
+    "save_prefix": "eye_monitor_v1",
+
+    "waveform_plot": {
+      "ui_start": 2.0,
+      "ui_stop": 12.0
+    }
+  }
+}

@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+.venv/
+
+# macOS
+.DS_Store
+
+# Results / generated data
+results/
+
+# Backups
+backups/
+
+# Optional: large configs if needed
+# *.json

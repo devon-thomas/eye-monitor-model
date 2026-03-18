@@ -1,0 +1,23 @@
+{
+  "base_config": "config_nominal_128.json",
+
+  "metric": "eye_height_center_safe",
+
+  "oracle": {
+    "sampling": {
+      "sigma_j": 0.0,
+      "n_ui_collect": 8192
+    }
+  },
+
+  "jitter_values": [
+    2.5e-13,
+    4.5e-13,
+    7.5e-13,
+    10e-13
+  ],
+
+  "tx_settings": "./tx_settings/tx_settings.json",
+  "output_file": "./results/sweep_results_128.json",
+  "output_csv":  "./results/sweep_results_128.csv"
+}

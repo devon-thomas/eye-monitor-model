@@ -1,0 +1,99 @@
+{
+  "data": {
+    "tbit": 3.125e-11,
+    "n_bits": 8500,
+    "samples_per_bit": 512,
+    "prbs_seed": 90,
+    "waveform": {
+      "vpp": 0.4,
+      "vcm": 0.0
+    }
+  },
+  "tx_eq": {
+    "enabled": true,
+    "model": "fir_3tap_causal",
+    "fir_3tap": {
+      "c_pre": 0.0,
+      "c_main": 1.0,
+      "c_post": 0.0
+    },
+    "fir_3tap_causal": {
+      "c_main": 0.8,
+      "c_post1": -0.2,
+      "c_post2": 0.0
+    }
+  },
+
+  "channel": {
+  "enabled": true,
+  "model": "fir_ui",
+
+  "fir_ui": {
+    "taps": [0.1613, 0.6774, 0.1613]
+  },
+
+  "one_pole": {
+    "fp_hz": 1.5e10,
+    "gain": 1.0
+   }
+ },
+
+  "frontend": {
+    "enabled": true,
+    "model": "one_pole",
+    "one_pole": {
+      "fp_hz": 100e9,
+      "gain": 1.0
+    },
+
+    "measured_tf": {
+      "enabled": false,
+      "file": "",
+      "format": "csv",
+      "freq_column": "freq_hz",
+      "real_column": "h_real",
+      "imag_column": "h_imag"
+    }
+  },
+
+  "sampling": {
+    "sigma_j": 450e-15,
+    "n_phases": 32,
+    "n_ui_collect": 128,
+    "skip_initial_ui": 10
+  },
+
+  "nonlinearity": {
+    "enabled": false,
+    "model": "polynomial",
+    "polynomial": {
+      "a1": 0.3252,
+      "a2": 0.00730,
+      "a3": 0.165
+    }
+  },
+
+  "noise": {
+    "enabled": false,
+    "sigma_v": 650e-06 
+  },
+
+  "eye_metrics": {
+    "k_sigma": 3,
+    "eye_width": {
+      "mode": "safe_positive",
+      "value": 0.0
+    }
+  },
+
+  "output": {
+    "enabled": true,
+    "show_plots": true,
+    "save_plots": false,
+    "save_prefix": "eye_monitor_v1",
+    "waveform_plot": {
+      "ui_start": 2.0,
+      "ui_stop": 12.0
+    }
+  }
+}

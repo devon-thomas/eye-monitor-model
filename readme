@@ -1,0 +1,15 @@
+Behavioral Model of EYE Monitor and TX Calibration
+
+config_nominal contains run variables 
+config_sweep contains swept TX settings to sample eye from
+
+commands:
+python eye_mon.engine config_nominal.json
+python eye_mon.sweep config_sweep.json
+
+Goal is to model TX FIR, channel FIR, and Frontend BW/nonlinearity with PI for eye reconstruction.
+A sweep will report the winner TX FIR settings that optimize eye height and eye area for an oracle run (no sampling jitter)
+and compare to sampling jitter included eye reconstructions. If jittery eye reconstructions converge to oracle winner, we can determine
+at which level of sampling jitter is acceptable. 
+
+

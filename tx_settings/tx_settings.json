@@ -1,0 +1,554 @@
+[
+  {
+    "name": "tx0",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.2,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx1",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.2,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx2",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.2,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx3",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.2,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx4",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.2,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx5",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.15,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx6",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.15,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx7",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.15,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx8",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.15,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx9",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.15,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx10",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.1,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx11",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.1,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx12",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.1,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx13",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.1,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx14",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.1,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx15",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.05,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx16",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.05,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx17",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.05,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx18",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.05,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx19",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.05,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx20",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.0,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx21",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.0,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx22",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.0,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx23",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.0,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx24",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.6,
+    "c_post1": -0.0,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx25",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.2,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx26",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.2,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx27",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.2,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx28",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.15,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx29",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.15,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx30",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.15,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx31",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.15,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx32",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.1,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx33",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.1,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx34",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.1,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx35",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.1,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx36",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.1,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx37",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.05,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx38",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.05,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx39",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.05,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx40",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.05,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx41",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.05,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx42",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.0,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx43",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.0,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx44",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.0,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx45",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.0,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx46",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.7,
+    "c_post1": -0.0,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx47",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.2,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx48",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.15,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx49",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.15,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx50",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.1,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx51",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.1,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx52",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.1,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx53",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.05,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx54",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.05,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx55",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.05,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx56",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.05,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx57",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.0,
+    "c_post2": -0.2
+  },
+  {
+    "name": "tx58",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.0,
+    "c_post2": -0.15
+  },
+  {
+    "name": "tx59",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.0,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx60",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.0,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx61",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.8,
+    "c_post1": -0.0,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx62",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.9,
+    "c_post1": -0.1,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx63",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.9,
+    "c_post1": -0.05,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx64",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.9,
+    "c_post1": -0.05,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx65",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.9,
+    "c_post1": -0.0,
+    "c_post2": -0.1
+  },
+  {
+    "name": "tx66",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.9,
+    "c_post1": -0.0,
+    "c_post2": -0.05
+  },
+  {
+    "name": "tx67",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 0.9,
+    "c_post1": -0.0,
+    "c_post2": -0.0
+  },
+  {
+    "name": "tx68",
+    "model": "fir_3tap_causal",
+    "enabled": false,
+    "c_main": 1.0,
+    "c_post1": -0.0,
+    "c_post2": -0.0
+  }
+]

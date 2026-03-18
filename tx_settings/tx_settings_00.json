@@ -1,0 +1,226 @@
+[
+  {
+    "name": "tx0",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.4,
+    "c_post1": -0.6,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx1",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.4,
+    "c_post1": -0.5,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx2",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.4,
+    "c_post1": -0.4,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx3",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.4,
+    "c_post1": -0.3,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx4",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.4,
+    "c_post1": -0.2,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx5",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.4,
+    "c_post1": -0.1,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx6",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.4,
+    "c_post1": -0.0,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx7",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.5,
+    "c_post1": -0.5,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx8",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.5,
+    "c_post1": -0.4,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx9",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.5,
+    "c_post1": -0.3,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx10",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.5,
+    "c_post1": -0.2,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx11",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.5,
+    "c_post1": -0.1,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx12",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.5,
+    "c_post1": -0.0,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx13",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.4,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx14",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.3,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx15",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.2,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx16",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.1,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx17",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.6,
+    "c_post1": -0.0,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx18",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.7,
+    "c_post1": -0.3,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx19",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.7,
+    "c_post1": -0.2,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx20",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.7,
+    "c_post1": -0.1,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx21",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.7,
+    "c_post1": -0.0,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx22",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.8,
+    "c_post1": -0.2,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx23",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.8,
+    "c_post1": -0.1,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx24",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.8,
+    "c_post1": -0.0,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx25",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.9,
+    "c_post1": -0.1,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx26",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 0.9,
+    "c_post1": -0.0,
+    "c_post2": 0.0
+  },
+  {
+    "name": "tx27",
+    "model": "fir_3tap_causal",
+    "enabled": true,
+    "c_main": 1.0,
+    "c_post1": -0.0,
+    "c_post2": 0.0
+  }
+]
