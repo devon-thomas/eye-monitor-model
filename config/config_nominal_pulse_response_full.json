@@ -5,12 +5,24 @@
     "samples_per_bit": 512,
     "prbs_seed": 90,
     "waveform": {
-      "vpp": 0.4,
+      "vpp": 1,
       "vcm": 0.0
     }
   },
+  "input_waveform": {
+    "model": "pulse_response_bits",
+    "taps": [
+      0,
+      0.04,
+      0.35,
+      0.1,
+      0.01,
+      0.0,
+      0.0
+    ]
+  },
   "tx_eq": {
-    "enabled": true,
+    "enabled": false,
     "model": "fir_3tap_causal",
     "fir_3tap": {
       "c_pre": 0.0,
@@ -20,32 +32,31 @@
     "fir_3tap_causal": {
       "c_main": 0.8,
       "c_post1": -0.15,
-      "c_post2": -0.0 
+      "c_post2": -0.0
     }
   },
-
   "channel": {
-  "enabled": true,
-  "model": "fir_ui",
-
-  "fir_ui": {
-    "taps": [0.2613, 0.4774, 0.2613]
+    "enabled": false,
+    "model": "fir_ui",
+    "fir_ui": {
+      "taps": [
+        0.2613,
+        0.4774,
+        0.2613
+      ]
+    },
+    "one_pole": {
+      "fp_hz": 15000000000.0,
+      "gain": 1.0
+    }
   },
-
-  "one_pole": {
-    "fp_hz": 1.5e10,
-    "gain": 1.0
-   }
- },
-
   "frontend": {
     "enabled": true,
     "model": "one_pole",
     "one_pole": {
-      "fp_hz": 64e9,
+      "fp_hz": 20e9,
       "gain": 1.0
     },
-
     "measured_tf": {
       "enabled": false,
       "file": "",
@@ -55,29 +66,25 @@
       "imag_column": "h_imag"
     }
   },
-
   "sampling": {
-    "sigma_j": 450e-15,
+    "sigma_j": 4.5e-13,
     "n_phases": 8,
     "n_ui_collect": 1024,
     "skip_initial_ui": 10
   },
-
   "nonlinearity": {
-    "enabled": true,
+    "enabled": false,
     "model": "polynomial",
     "polynomial": {
-      "a1": 0.50,
+      "a1": 0.5,
       "a2": 0.2,
-      "a3": -0.40
+      "a3": -0.4
     }
   },
-
   "noise": {
-    "enabled": true,
-    "sigma_v": 3e-3 
+    "enabled": false,
+    "sigma_v": 0.003
   },
-
   "eye_metrics": {
     "k_sigma": 3,
     "eye_width": {
@@ -85,7 +92,6 @@
       "value": 0.0
     }
   },
-
   "output": {
     "enabled": true,
     "show_plots": true,
@@ -96,7 +102,6 @@
       "ui_stop": 50.0
     }
   },
-
   "debug": {
     "plot_nl_error": true,
     "plot_frequency_response": true,

@@ -12,10 +12,18 @@
     2.5e-13,
     4.5e-13,
     7.5e-13,
-    10e-13
+    10e-13,
+    10e-12
   ],
 
-  "tx_settings": "./tx_settings/tx_settings.json",
+
+  "tx_settings": "./tx_settings/tx_settings_full_01.json",
+
+  "_comment": "fir_3tap_causal removed",
+
+  "tx_model_filter": [
+  "fir_3tap"
+  ],
 
   "output_file": "./results/sweep_results_dualmetric.json",
   "output_csv": "./results/sweep_results_dualmetric.csv"

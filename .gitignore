@@ -5,6 +5,7 @@ __pycache__/
 
 # Virtual environment
 .venv/
+venv/
 
 # macOS
 .DS_Store
@@ -15,5 +16,10 @@ results/
 # Backups
 backups/
 
+# Data artifacts
+*.raw
+*.psf
+*.csv
+*.zip
 # Optional: large configs if needed
 # *.json

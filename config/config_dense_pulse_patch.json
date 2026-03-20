@@ -1,0 +1,9 @@
+{
+  "input_waveform": {
+    "model": "pulse_response_dense",
+    "file": "./config/pulse_response_dense_example.csv"
+  },
+  "channel": {
+    "enabled": false
+  }
+}
