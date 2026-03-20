@@ -21,5 +21,7 @@ backups/
 *.psf
 *.csv
 *.zip
+*.swp
+
 # Optional: large configs if needed
 # *.json
