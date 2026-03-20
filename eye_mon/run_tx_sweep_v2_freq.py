@@ -14,10 +14,36 @@ def load_sweep_config(path):
         return json.load(f)
 
 def load_tx_settings(sweep_cfg):
-    def _filter_enabled(settings, source_name):
+    def _filter_settings(settings, source_name):
         if not isinstance(settings, list) or len(settings) == 0:
             raise ValueError("%s must contain a non-empty JSON list" % source_name)
 
+        # ----------------------------
+        # Optional model filter
+        # ----------------------------
+        model_filter = sweep_cfg.get("tx_model_filter", None)
+        if model_filter is not None:
+            if not isinstance(model_filter, list) or len(model_filter) == 0:
+                raise ValueError("tx_model_filter must be a non-empty list if provided")
+
+            model_filter = set(model_filter)
+
+            settings = [
+                s for s in settings
+                if s.get("model") in model_filter
+            ]
+
+            print(
+                "Filtered TX settings by model %s: %d remain"
+                % (sorted(model_filter), len(settings))
+            )
+
+        if len(settings) == 0:
+            raise ValueError("No TX settings remain after model filtering in %s" % source_name)
+
+        # ----------------------------
+        # Enabled filter
+        # ----------------------------
         enabled_settings = [s for s in settings if bool(s.get("enabled", True))]
 
         print(
@@ -38,7 +64,7 @@ def load_tx_settings(sweep_cfg):
         with open(tx_settings_file, "r") as f:
             tx_settings = json.load(f)
 
-        return _filter_enabled(tx_settings, tx_settings_file)
+        return _filter_settings(tx_settings, tx_settings_file)
 
     # ----------------------------
     # Case 2: tx_settings (string or inline)
@@ -51,10 +77,10 @@ def load_tx_settings(sweep_cfg):
             with open(tx_settings, "r") as f:
                 file_settings = json.load(f)
 
-            return _filter_enabled(file_settings, tx_settings)
+            return _filter_settings(file_settings, tx_settings)
 
         # Case 2b: inline list
-        return _filter_enabled(tx_settings, "inline config")
+        return _filter_settings(tx_settings, "inline config")
 
     # ----------------------------
     # Error
@@ -62,7 +88,6 @@ def load_tx_settings(sweep_cfg):
     raise ValueError(
         "Sweep config must contain either 'tx_settings_file' or 'tx_settings'"
     )
-
 
 def apply_tx_setting(cfg, tx_setting):
     model = tx_setting.get("model", "fir_3tap")
@@ -335,9 +360,13 @@ def print_summary_comparison(oracle_by_metric, jitter_runs_by_metric, tbit):
 
 
 def main():
-    sweep_config_path = "config_sweep.json"
+    default_cfg = "config/config_sweep.json"
+
     if len(sys.argv) > 1:
         sweep_config_path = sys.argv[1]
+    else:
+        sweep_config_path = default_cfg
+        print(f"[INFO] No sweep config provided, using default: {sweep_config_path}")
 
     sweep_cfg = load_sweep_config(sweep_config_path)
     base_config_path = sweep_cfg["base_config"]
@@ -349,12 +378,13 @@ def main():
     tx_settings = load_tx_settings(sweep_cfg)
     oracle_rankings = run_oracle_sweep(base_cfg, sweep_cfg, tx_settings)
     jitter_runs = run_jitter_sweeps(base_cfg, sweep_cfg, tx_settings)
-
-    for metric_name in [HEIGHT_METRIC, AREA_METRIC]:
-        print_results_table("Oracle ranking", oracle_rankings[metric_name], metric_name)
-        for run in jitter_runs[metric_name]:
-            title = "Jitter ranking: sigma_j = %.3f fs" % (run["sigma_j"] * 1e15)
-            print_results_table(title, run["ranked_results"], metric_name)
+    
+    # ---- for plotting per run performance
+    #for metric_name in [HEIGHT_METRIC, AREA_METRIC]:
+    #    print_results_table("Oracle ranking", oracle_rankings[metric_name], metric_name)
+    #    for run in jitter_runs[metric_name]:
+    #        title = "Jitter ranking: sigma_j = %.3f fs" % (run["sigma_j"] * 1e15)
+    #        print_results_table(title, run["ranked_results"], metric_name)
 
     print_summary_comparison(oracle_rankings, jitter_runs, tbit)
 

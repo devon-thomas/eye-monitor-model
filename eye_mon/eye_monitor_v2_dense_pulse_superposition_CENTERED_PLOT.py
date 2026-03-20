@@ -56,6 +56,37 @@ def validate_config(cfg):
         raise ValueError("data.waveform.vpp must be > 0")
 
     # ----------------------------
+    # Input waveform (optional)
+    # ----------------------------
+    input_waveform_cfg = cfg.get("input_waveform", {"model": "nrz_channel_fir"})
+    input_waveform_model = input_waveform_cfg.get("model", "nrz_channel_fir")
+
+    if input_waveform_model not in ["nrz_channel_fir", "pulse_response_bits", "pulse_response_dense"]:
+        raise ValueError(
+            "input_waveform.model must be 'nrz_channel_fir', 'pulse_response_bits', or 'pulse_response_dense'"
+        )
+
+    if input_waveform_model == "pulse_response_bits":
+        taps = input_waveform_cfg.get("taps", None)
+        if not isinstance(taps, list) or len(taps) < 1:
+            raise ValueError("input_waveform.taps must be a non-empty list in pulse_response_bits mode")
+        for x in taps:
+            float(x)
+        if bool(cfg["channel"]["enabled"]):
+            raise ValueError(
+                "input_waveform.model='pulse_response_bits' requires channel.enabled=false to avoid double-counting ISI"
+            )
+
+    if input_waveform_model == "pulse_response_dense":
+        pulse_file = input_waveform_cfg.get("file", "")
+        if not isinstance(pulse_file, str) or pulse_file.strip() == "":
+            raise ValueError("input_waveform.file must be a non-empty string in pulse_response_dense mode")
+        if bool(cfg["channel"]["enabled"]):
+            raise ValueError(
+                "input_waveform.model='pulse_response_dense' requires channel.enabled=false to avoid double-counting ISI"
+            )
+
+    # ----------------------------
     # TX EQ
     # ----------------------------
     tx_eq_enabled = bool(cfg["tx_eq"]["enabled"])
@@ -283,7 +314,41 @@ def apply_tx_eq(bits, cfg_tx_eq):
 
         return c_main * b + c_post1 * b_prev1 + c_post2 * b_prev2
 
-    raise ValueError("Unsupported tx_eq.model: %s" % model)
+
+
+# === APPLY_BIT_PULSE_RESPONSE ===
+# Convolve the TX-equalized bit stream with an M-bit pulse response to create symbol amplitudes.
+def apply_bit_pulse_response(symbols, pulse_taps):
+    symbols = np.asarray(symbols, dtype=float)
+    pulse_taps = np.asarray(pulse_taps, dtype=float)
+    return np.convolve(symbols, pulse_taps, mode="same")
+
+
+# === LOAD_DENSE_PULSE_RESPONSE ===
+# Load a dense pulse response from a text or CSV file with one numeric sample per row.
+def load_dense_pulse_response(path):
+    pulse = np.loadtxt(path, delimiter=",", ndmin=1)
+    pulse = np.asarray(pulse, dtype=float).flatten()
+    if pulse.size < 2:
+        raise ValueError("Dense pulse-response file must contain at least two numeric samples")
+    return pulse
+
+
+# === APPLY_DENSE_PULSE_SUPERPOSITION ===
+# Build the dense waveform by UI-spaced superposition of a dense bit pulse response.
+def apply_dense_pulse_superposition(symbols, pulse_dense, samples_per_bit):
+    symbols = np.asarray(symbols, dtype=float)
+    pulse_dense = np.asarray(pulse_dense, dtype=float).flatten()
+
+    n_out = len(symbols) * samples_per_bit + len(pulse_dense) - samples_per_bit
+    y = np.zeros(n_out, dtype=float)
+
+    for k, a in enumerate(symbols):
+        i0 = k * samples_per_bit
+        i1 = i0 + len(pulse_dense)
+        y[i0:i1] += a * pulse_dense
+
+    return y
 
 
 # === BUILD_NRZ_WAVEFORM ===
@@ -502,24 +567,33 @@ def compute_eye_metrics(results, tbit, cfg_eye_metrics, vcm):
     width_mode = cfg_eye_metrics["eye_width"]["mode"]
     width_value = float(cfg_eye_metrics["eye_width"]["value"])
 
+    # === PATCH: recenter arrays so best phase is at center ===
+    n = len(phase_cmd_ui)
+    center_idx = n // 2
+    shift = center_idx - best_idx
+
+    phase_cmd_ui_centered = (np.arange(n) - center_idx) / float(n) + 0.5
+    opening_safe_centered = np.roll(opening_safe, shift)
+
     if width_mode == "safe_positive":
-        open_mask = opening_safe > 0.0
+        open_mask = opening_safe_centered > 0.0
     elif width_mode == "absolute":
-        open_mask = opening_safe > width_value
+        open_mask = opening_safe_centered > width_value
     else:
         raise ValueError("Unsupported eye width mode: %s" % width_mode)
 
-    left_idx = best_idx
+    left_idx = center_idx
     while left_idx > 0 and open_mask[left_idx - 1]:
         left_idx -= 1
 
-    right_idx = best_idx
+    right_idx = center_idx
     while right_idx < len(open_mask) - 1 and open_mask[right_idx + 1]:
         right_idx += 1
 
-    left_edge_ui = phase_cmd_ui[left_idx]
-    right_edge_ui = phase_cmd_ui[right_idx]
+    left_edge_ui = phase_cmd_ui_centered[left_idx]
+    right_edge_ui = phase_cmd_ui_centered[right_idx]
     eye_width_ui = right_edge_ui - left_edge_ui
+
     return {
         "phase_cmd_ui": phase_cmd_ui,
         "mu_upper": mu_upper,
@@ -708,6 +782,42 @@ def _eval_fir_response_ui(taps, f_hz, tbit):
     return resp
 
 
+
+
+# === _GET_INPUT_WAVEFORM_RESPONSE ===
+# Return the selected input-waveform response on the requested frequency grid.
+def _get_input_waveform_response(cfg, f_hz, tbit):
+    input_waveform_cfg = cfg.get("input_waveform", {"model": "nrz_channel_fir"})
+    model = input_waveform_cfg.get("model", "nrz_channel_fir")
+
+    if model == "nrz_channel_fir":
+        return _get_channel_response(cfg["channel"], f_hz, tbit), "H(f) Channel"
+
+    if model == "pulse_response_bits":
+        taps = [float(x) for x in input_waveform_cfg["taps"]]
+        return _eval_fir_response_ui(taps, f_hz, tbit), "P(f) Pulse response (UI)"
+
+#    if model == "pulse_response_dense":
+#        pulse_dense = load_dense_pulse_response(input_waveform_cfg["file"])
+#        dt = tbit / float(int(cfg["data"]["samples_per_bit"]))
+#        resp = np.zeros_like(f_hz, dtype=complex)
+#        for k, hk in enumerate(pulse_dense):
+#            resp += hk * np.exp(-1j * 2.0 * np.pi * f_hz * (k * dt))
+#        resp = resp / samples_per_bit
+    if model == "pulse_response_dense":
+        pulse_dense = load_dense_pulse_response(input_waveform_cfg["file"])
+        samples_per_bit = float(int(cfg["data"]["samples_per_bit"]))
+        dt = tbit / samples_per_bit
+        resp = np.zeros_like(f_hz, dtype=complex)
+        for k, hk in enumerate(pulse_dense):
+            resp += hk * np.exp(-1j * 2.0 * np.pi * f_hz * (k * dt))
+         
+        resp =  resp / samples_per_bit
+        return resp, "P(f) Pulse response (dense)"
+
+    raise ValueError("Unsupported input_waveform.model: %s" % model)
+
+
 # === _GET_CHANNEL_RESPONSE ===
 # Return the channel frequency response on the requested frequency grid.
 def _get_channel_response(cfg_channel, f_hz, tbit):
@@ -760,20 +870,20 @@ def _plot_frequency_response(cfg):
 
     tx_taps = _get_tx_fir_ui_taps(cfg["tx_eq"])
     G = _eval_fir_response_ui(tx_taps, f_hz, tbit)
-    H = _get_channel_response(cfg["channel"], f_hz, tbit)
+    W, w_label = _get_input_waveform_response(cfg, f_hz, tbit)
     Q = _get_frontend_response(cfg["frontend"], f_hz)
-    GHQ = G * H * Q
+    GWQ = G * W * Q
 
     eps = 1e-15
     plt.figure(figsize=(9, 5))
     plt.plot(f_hz, 20.0 * np.log10(np.maximum(np.abs(G), eps)), label="G(f) TX")
-    plt.plot(f_hz, 20.0 * np.log10(np.maximum(np.abs(H), eps)), label="H(f) Channel")
+    plt.plot(f_hz, 20.0 * np.log10(np.maximum(np.abs(W), eps)), label=w_label)
     plt.plot(f_hz, 20.0 * np.log10(np.maximum(np.abs(Q), eps)), label="Q(f) Front-end")
-    plt.plot(f_hz, 20.0 * np.log10(np.maximum(np.abs(GHQ), eps)), label="G(f)H(f)Q(f) Total")
+    plt.plot(f_hz, 20.0 * np.log10(np.maximum(np.abs(GWQ), eps)), label="Total")
     plt.xlim([0.0, f_max])
     plt.xlabel("Frequency [Hz]")
     plt.ylabel("Magnitude [dB]")
-    plt.title("Frequency Response of TX / Channel / Front-end")
+    plt.title("Frequency Response of TX / Waveform / Front-end")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
@@ -852,22 +962,39 @@ def plot_results(sim, cfg):
     _save_figure_if_requested(save_plots, save_prefix, "_eye_scatter.png")
 
     plt.figure(figsize=(9, 5))
-    plt.plot(phase_cmd_ui, metrics["mu_upper"], marker="o", label="Upper mean")
-    plt.plot(phase_cmd_ui, metrics["mu_lower"], marker="o", label="Lower mean")
-    plt.plot(phase_cmd_ui, metrics["opening_raw"], marker="o", label="Opening raw")
-    plt.plot(phase_cmd_ui, metrics["opening_safe"], marker="o", label="Opening safe")
+
+    # === PATCH: centered visualization ===
+    n = len(metrics["phase_cmd_ui"])
+    center_idx = n // 2
+    best_idx = metrics["best_idx"]
+    shift = center_idx - best_idx
+
+    phase_centered = (np.arange(n) - center_idx) / float(n) + 0.5
+
+    mu_upper_c = np.roll(metrics["mu_upper"], shift)
+    mu_lower_c = np.roll(metrics["mu_lower"], shift)
+    opening_raw_c = np.roll(metrics["opening_raw"], shift)
+    opening_safe_c = np.roll(metrics["opening_safe"], shift)
+
+    plt.plot(phase_centered, mu_upper_c, marker="o", label="Upper mean")
+    plt.plot(phase_centered, mu_lower_c, marker="o", label="Lower mean")
+    plt.plot(phase_centered, opening_raw_c, marker="o", label="Opening raw")
+    plt.plot(phase_centered, opening_safe_c, marker="o", label="Opening safe")
+
     plt.fill_between(
-        phase_cmd_ui,
+        phase_centered,
         0.0,
-        np.maximum(metrics["opening_safe"], 0.0),
+        np.maximum(opening_safe_c, 0.0),
         alpha=0.2,
         label="Safe area"
     )
-    plt.axvline(metrics["best_phase_ui"], linestyle="--", linewidth=1.0, alpha=0.8, label="Best phase")
+
+    plt.axvline(0.5, linestyle="--", linewidth=1.0, alpha=0.8, label="Best phase")
     plt.axvline(metrics["left_edge_ui"], linestyle=":", linewidth=1.0, alpha=0.8, label="Left edge")
     plt.axvline(metrics["right_edge_ui"], linestyle=":", linewidth=1.0, alpha=0.8, label="Right edge")
+
     plt.xlim([0.0, 1.0])
-    plt.xlabel("Commanded sample phase [UI]")
+    plt.xlabel("Commanded sample phase [UI] (centered)")
     plt.ylabel("Voltage [V]")
     plt.title("Rail Statistics and Eye Opening vs Commanded Phase")
     plt.grid(True)
@@ -922,7 +1049,23 @@ def run_model(cfg):
     eq_symbols = apply_tx_eq(bits, cfg["tx_eq"])
     x_tx = build_nrz_waveform(eq_symbols, t, tbit, vpp=vpp, vcm=vcm)
 
-    x_ch = apply_channel(x_tx, dt, samples_per_bit, cfg["channel"])
+    input_waveform_cfg = cfg.get("input_waveform", {"model": "nrz_channel_fir"})
+    input_waveform_model = input_waveform_cfg.get("model", "nrz_channel_fir")
+
+    pulse_symbols = None
+    pulse_dense = None
+
+    if input_waveform_model == "pulse_response_bits":
+        pulse_symbols = apply_bit_pulse_response(eq_symbols, input_waveform_cfg["taps"])
+        x_ch = build_nrz_waveform(pulse_symbols, t, tbit, vpp=vpp, vcm=vcm)
+    elif input_waveform_model == "pulse_response_dense":
+        pulse_dense = load_dense_pulse_response(input_waveform_cfg["file"])
+        pulse_drive_symbols = 0.5 * vpp * eq_symbols
+        x_ch_full = apply_dense_pulse_superposition(pulse_drive_symbols, pulse_dense, samples_per_bit)
+        x_ch = x_ch_full[:len(t)]
+    else:
+        x_ch = apply_channel(x_tx, dt, samples_per_bit, cfg["channel"])
+
     y = apply_frontend(x_ch, dt, cfg["frontend"])
 
     y_before_nl = y.copy()
@@ -956,6 +1099,8 @@ def run_model(cfg):
         "dt": dt,
         "bits": bits,
         "eq_symbols": eq_symbols,
+        "pulse_symbols": pulse_symbols,
+        "pulse_dense": pulse_dense,
         "vpp": vpp,
         "vcm": vcm,
         "results": results,
@@ -967,11 +1112,15 @@ def run_model(cfg):
 # === MAIN ===
 # Load config, run the model, print summary, and optionally show plots.
 def main():
-    config_path = "config.json"
-    if len(sys.argv) > 1:
-        config_path = sys.argv[1]
+    default_cfg = "config/config_nominal.json"
 
-    cfg = load_config(config_path)
+    if len(sys.argv) > 1:
+        cfg_path = sys.argv[1]
+    else:
+        cfg_path = default_cfg
+        print(f"[INFO] No config provided, using default: {cfg_path}")
+
+    cfg = load_config(cfg_path)
     validate_config(cfg)
 
     sim = run_model(cfg)
