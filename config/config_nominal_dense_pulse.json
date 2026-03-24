@@ -11,7 +11,7 @@
   },
   "input_waveform": {
     "model": "pulse_response_dense",
-    "file": "./pulse_response/pulse_response_dense_interp_8.csv"
+    "file": "./pulse_response/pulse_response_dense_interp_8_isi.csv"
   },
   "tx_eq": {
     "enabled": true,
@@ -43,10 +43,10 @@
     }
   },
   "frontend": {
-    "enabled": false,
+    "enabled": true,
     "model": "one_pole",
     "one_pole": {
-      "fp_hz": 64000000000.0,
+      "fp_hz": 64e9,
       "gain": 1.0
     },
     "measured_tf": {
@@ -59,13 +59,13 @@
     }
   },
   "sampling": {
-    "sigma_j": 1000e-15,
+    "sigma_j": 500e-15,
     "n_phases": 32,
     "n_ui_collect": 1024,
     "skip_initial_ui": 10
   },
   "nonlinearity": {
-    "enabled": false,
+    "enabled": true,
     "model": "polynomial",
     "polynomial": {
       "a1": 0.5,
@@ -76,6 +76,12 @@
   "noise": {
     "enabled": true,
     "sigma_v": 0.001
+  },
+  "adc": {
+  "enabled": true,
+  "n_bits": 6,
+  "vmin": -0.4,
+  "vmax": 0.4
   },
   "eye_metrics": {
     "k_sigma": 3,

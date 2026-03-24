@@ -1,5 +1,5 @@
 {
-  "base_config": "config_nominal.json",
+  "base_config": "config/config_nominal.json",
 
   "oracle": {
     "sampling": {
@@ -9,15 +9,15 @@
   },
 
   "jitter_values": [
-    2.5e-13,
-    4.5e-13,
-    7.5e-13,
-    10e-13,
+    250e-15,
+    450e-15,
+    750e-15,
+    1e-12,
     10e-12
   ],
 
 
-  "tx_settings": "./tx_settings/tx_settings_full_01.json",
+  "tx_settings": "./tx_settings/tx_settings.json",
 
   "_comment": "fir_3tap_causal removed",
 

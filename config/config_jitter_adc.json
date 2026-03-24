@@ -1,0 +1,41 @@
+{
+  "base_config": "config/config_nominal.json",
+  "metrics": [
+    "eye_height_center_safe",
+    "eye_area_safe"
+  ],
+  "oracle": {
+    "sampling": {
+      "sigma_j": 0.0,
+      "n_ui_collect": 2048 
+    }
+  },
+  "jitter_values": [
+    0.0,
+    250e-15,
+    500e-15,
+    750e-15,
+    1000e-15,
+    1250e-15
+  ],
+  "adc_bits": [
+    null,
+    10,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4
+  ],
+  "adc_fullscale": {
+    "vmin": -0.5,
+    "vmax": 0.5
+  },
+  "tx_settings": "./tx_settings/tx_settings.json",
+  "tx_model_filter": [
+    "fir_3tap"
+  ],
+  "output_file": "./results/jitter_adc_sweep.json",
+  "output_csv": "./results/jitter_adc_sweep.csv"
+}
